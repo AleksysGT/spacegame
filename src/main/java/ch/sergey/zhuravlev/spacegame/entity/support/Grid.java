@@ -7,8 +7,8 @@ import java.awt.*;
 public class Grid extends GameEntity {
 
     // Размер сетки
-    private int height;
-    private int width;
+    private double height;
+    private double width;
 
     // Размер самой карты
     private int mapHeight;
@@ -20,7 +20,7 @@ public class Grid extends GameEntity {
     //Размер зума
     private int zoom = 1; // Один пункт занимет ** пикселей
 
-    public Grid(int width, int height, int mapWidth, int mapHeight, Point mapPos) {
+    public Grid(double width, double height, int mapWidth, int mapHeight, Point mapPos) {
         this.width = width;
         this.height = height;
         this.mapWidth = mapWidth;
@@ -31,15 +31,15 @@ public class Grid extends GameEntity {
     @Override
     public void draw(Graphics2D g) {
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0, width, height);
+        g.fillRect(0, 0, (int) width, (int) height);
         g.setColor(new Color(50, 80, 90));
 
         for (int y = 100 - mapPos.y % 100; y <= height / zoom; y += 100) {// 100 - пунктов в 1 AE
-            g.drawLine(0, y * zoom, width, y * zoom);
+            g.drawLine(0, y * zoom, (int) width, y * zoom);
             g.drawString(String.valueOf(mapPos.y + y), 0, y * zoom);
-        }
+    }
         for (int x = 100 - mapPos.x % 100; x <= width / zoom; x += 100) // 100 - пунктов в 1 AE
-            g.drawLine(x * zoom, 0, x * zoom, height);
+            g.drawLine(x * zoom, 0, x * zoom, (int) height);
 
     }
 

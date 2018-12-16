@@ -4,9 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.List;
 
 import ch.sergey.zhuravlev.spacegame.gui.Component;
 
@@ -14,7 +18,7 @@ public class Application extends JPanel implements Runnable, MouseListener {
 
     private Graphics2D graphics2D;
     private BufferedImage image;
-    private Collection<Component> childs;
+    private List<Component> childs;
 
     private Thread thread;
     private boolean running;
@@ -31,10 +35,24 @@ public class Application extends JPanel implements Runnable, MouseListener {
 
     public Application() {
         super();
+        loadFont();
         setPreferredSize(new Dimension(800, 600));
         setFocusable(true);
         requestFocusInWindow();
-        childs = new HashSet<Component>();
+        childs = new ArrayList<>();
+    }
+
+    private void loadFont() {
+        try {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ClassLoader classLoader = getClass().getClassLoader();
+            Font font = Font.createFont(Font.PLAIN, new File(classLoader.getResource("font/VCR_OSD_MONO.ttf").getFile()));
+            ge.registerFont(font);
+        } catch (IOException e) {
+            System.out.println("Can't open font file!");
+        } catch (FontFormatException e) {
+            System.out.println("Can't load font!");
+        }
     }
 
     public void addNotify() {
@@ -88,7 +106,7 @@ public class Application extends JPanel implements Runnable, MouseListener {
 
     public void mouseClicked(MouseEvent e) {
         for (Component child : childs) {
-            child.onClick(e.getPoint());
+            child.onClick(new Point2D.Double(e.getX(), e.getY()));
         }
     }
 

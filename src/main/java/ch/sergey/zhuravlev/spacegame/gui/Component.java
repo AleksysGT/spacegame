@@ -1,43 +1,27 @@
 package ch.sergey.zhuravlev.spacegame.gui;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collection;
 
-public abstract class Component {
+public abstract class Component extends Rectangle {
 
-    private Collection<Component> childs;
-    private boolean visible;
-    private int x, y;
+    boolean visible;
 
-    public Component(int x, int y) {
-        this(true, new ArrayList<Component>(), x, y);
+    public Component(int x, int y, int width, int height) {
+        this(true, x, y, width, height);
     }
 
-    public Component(boolean visible, Collection<Component> childs, int x, int y) {
+    public Component(boolean visible,int x, int y, int width, int height) {
         this.visible = visible;
-        this.childs = childs;
         this.x = x;
         this.y = y;
+        this.height = height;
+        this.width = width;
     }
 
-    public abstract void draw(Graphics2D graphics2D);
-
-    public abstract boolean isHandle(Point point);
-
-    public void onClick(Point relatedOnThisObject) {
-        for (Component child : childs) {
-            if (child.isHandle(relatedOnThisObject))
-                child.onClick(new Point((int) relatedOnThisObject.getX() - this.getX(),  (int) relatedOnThisObject.getY() - this.getY()));
-        }
+    public void draw(Graphics2D graphics2D) {
     }
 
-    public Collection<Component> getChilds() {
-        return childs;
-    }
-
-    public void setChilds(Collection<Component> childs) {
-        this.childs = childs;
+    public void onClick(Point.Double relatedOnThisObject) {
     }
 
     public boolean isVisible() {
@@ -48,19 +32,4 @@ public abstract class Component {
         this.visible = visible;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
 }
